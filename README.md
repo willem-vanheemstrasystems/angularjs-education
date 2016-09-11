@@ -6,16 +6,27 @@ AngularJS - Education
 Content:
 
 01 Why You Should Be Using Angular 2
+
 02 Learn the core concepts behind ES6/TypeScript 
+
 03 How to Transpile/compile TypeScript to JavaScript
+
 04 Get started with the Angular CLI
+
 05 The Role of Components in Angular 2
+
 06 Decorators in Components (aka metadata)
+
 07 Bind data to views to create a masterpiece
+
 08 When dependency injection and providers make sense
+
 09 Input and output properties
+
 10 Managing remote data calls using Angular 2 services
+
 11 Where to use Http and RxJS Observables
+
 12 Angular 2 routing and page navigation
 
 ##01 Why You Should Be Using Angular 2
