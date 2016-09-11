@@ -21,7 +21,7 @@ Content:
 
 08 When dependency injection and providers make sense
 
-09 Input and output properties
+09 Input and output properties
 
 10 Managing remote data calls using Angular 2 services
 
