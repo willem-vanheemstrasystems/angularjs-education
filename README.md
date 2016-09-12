@@ -73,19 +73,35 @@ So, should you learn Angular 2? The answer is pretty obvious. It will definitely
 
 One of the very common surprises that people have when learning about Angular 2 is its close ties with TypeScript. This relationship seemingly came out of nowhere, and many people have been asking questions about this. Additionally, developers may feel a little trepidation when faced with learning yet again something new. So let’s get a quick look at not only the rationale, but the absolute basics and how much of an additional learning curve TypeScript might add when learning Angular 2.
  
-History
+***History***
 It’s easier to understand the present by understanding the past. When the Angular team started on Angular 2, they realized that with such a large undertaking, that having types would eliminate a large segment of possible bugs as they wrote the code for the framework. So internally they were interested in adding types to JavaScript. Furthermore, the dependency injection system of Angular 2 works better with types. So there was a good reason to use types not only within the source code of Angular 2, but also for developers using Angular 2. Additionally, one of the design goals for Angular 2 has always been for it to be forward looking. Using the latest version of JavaScript, ECMAScript 6, was a big part of that goal. So for now, some kind of transpiler is necessary.
 
 When analyzing the existing tools, nothing quite matched the requirements they had. That gave birth to an internal language called AtScript. The team used this language for quite a while, but eventually ended up in a meeting with the TypeScript team where they looked at the few things they needed that were missing from TypeScript. This resulted in an agreement to have those items added to TypeScript. AtScript was dropped and the project was converted to TypeScript.
- 
 
-What’s the Difference?
+***What’s the Difference?***
 Now TypeScript is by no means required to work with Angular 2. It just simplifies the code. Let’s take a quick look at what the same code looks like using TypeScript vs just regular old JavaScript.
 
 Here’s a simple component written in JavaScript:
  
-
-
+```javascript
+(function(app) {
+  app.HeroFormComponent = ng.core
+    .Component({
+      selector: 'hero-form',
+      templateUrl: 'app/hero-form.component.html'
+    })
+    .Class({
+      constructor: [function() {
+        this.powers = ['Really Smart', 'Super Flexible', 'Super Hot', 'Weather Changer'];
+        this.model = new app.Hero(18, 'Dr IQ', this.powers[0], 'Chuck Overstreet');
+        this.submitted = false;
+      }],
+      setSubmitted: function(newValue) {
+        this.submitted = newValue;
+      },
+    });
+});
+```
 
 And here’s the same thing in TypeScript:
  
