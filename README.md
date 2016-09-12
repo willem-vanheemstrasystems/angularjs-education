@@ -329,50 +329,91 @@ There are two important changes shown here: First, the HTML for our button now h
 
 This is how we handle interactions in Angular 2. It’s quite straightforward and simple to understand.
 
+***Passing Data to Child Components***
 
-Passing Data to Child Components
 The final item I want to cover is passing data to child components. This is a frequent task we need to accomplish. Often times a parent component will have data that child components need. For example, if our HeroInfo component has a name property like so:
  
-
-
+```javascript
+export class HeroInfo {
+  name: "Mr. Underwhelming";
+}
+```
 
 And we want the child component HeroInfoHeader to display the name of the hero in a h1 tag, then we need a way to pass that data to the HeroInfoHeader component. We do this by adding an attribute to the <hero-info-header> node in our HeroInfo template, like this:
  
-
-
+```javascript
+template:`
+  <hero-info-header [heroName]="name"></hero-info-header>
+  <hero-info-body></hero-info-body>
+`  
+```
 
 Here we have added the hero-name attribute to the hero-info-header node, surrounded by square brackets. There’s a couple of important things to notice here. First and most obviously, is the square brackets. When we were listening to events, we used parentheses. When we are binding data into our child component we use square brackets. They serve similar but distinct purposes. Events are the way our child component talks to the parent component. Letting the parent component know that something important happened. Bindings are how parent components talk to child components, sending data in. Understanding these two concepts is very important when working with Angular 2.
 
 Also notice that we don’t specify the actual value of the name, but instead, we pass the identifier name, which in this case is the string “name”. So if the identifier for the hero’s name wasn’t “name” but instead was “heroName” like this:
  
+```javascript
+export class HeroInfo {
+  heroName: "Mr. Underwhelming";
+}
 
-
+```
 
 Then our corresponding template would be this:
  
-
-
+```javascript
+template: `
+  <hero-info-header [heroName]="heroName"></hero-info-header>
+  <hero-info-body></hero-info-body>
+`
+```
 
 Now that we’ve passed the data into the child component, we have to tell the child component to receive this information, and store it somewhere for use. For that we use an Input decorator. Our HeroInfoHeader component would look like this:
  
-
-
+```javascript
+export class HeroInfoHeader {
+  @Input() heroName: string;
+}
+```
 
 Here we are using the Input decorator. It looks much like the component decorator, in that it starts with the @ sign, then the name of the decorator, and then parentheses. In the case of the component decorator, we pass in a configuration object. With the Input decorator, we don’t pass it any parameters, so the parentheses are empty. But in both cases, the parentheses are extremely important. This is a very common mistake to make, not adding in the parentheses, and instead just doing something like this:
  
-
-
+```javascript
+export class HeroInfoHeader {
+  @Input heroName: string;
+}
+```
 
 This is a great way to give yourself a headache trying to figure out why your app isn’t working correctly.
 
 Let’s put all this together and look at the completed solution:
  
-
-
+```javascript
+@Component({
+  selector: 'hero-info',
+  template: `
+    <hero-info-header [heroName]="heroName"></hero-info-header>
+    <hero-info-body></hero-info-body>
+  `
+})
+export class HeroInfo {
+  heroName = "Mr. Underwhelming";
+}
+@Component({
+  selector: 'hero-info-header',
+  template:`
+    <h1>{{ heroName }}</h1>
+  `
+})
+export class HeroInfo0Header {
+  @Input() heroName: string;
+}
+```
 
 And with this, we have learned the pattern for passing data from a parent component into a child component.
 
+***Summary***
 
-Summary
 Components in Angular 2 are a core concept. Any Angular 2 application will ultimately be composed from a tree of components. Understanding how to create components and communicate between parent and child components is a very important feature of learning Angular 2.
 
+
