@@ -227,5 +227,152 @@ This will mean that we can only add strings to the powers array. If we try to ad
 
 There’s obviously more to TypeScript’s types than what little I’ve shown here, but really, this is the 20% that’ll get you 80% of the result. For further reading I recommend you check out the TypeScript documentation at http://www.typescriptlang.org/docs/tutorial.html.
 
+##03 The Role of Components in Angular 2
 
+Components are the core construct of Angular 2. They are so central, in fact, that a solid understanding of them is critical when learning Angular 2.
+
+If you’re familiar with Angular 1, components are very relatable to controllers. Technically though, they’re much more similar to directives. In fact, the new components released in Angular 1.5 are very similar technically to Angular 2 components. The fact remains though that for most of the history of Angular 1, controllers were the brains of any application. This is much how components work in Angular 2. They are the brains, directing all the traffic. They are the starting point for where the “rubber meets the road” so to say, in an Angular 2 application.
+ 
+***What Is a Component?***
+
+So what is a component? A good technical definition would be that components in Angular 2 are a framework construct that owns a single node of HTML, and dictates what children are written to that node, and handle all interaction with those children. We can do a better job though by looking at some simple examples:
+ 
+```javascript
+<hero-info></hero-info>
+```
+
+Shown here is a simple html element. If this was Angular 1 we would immediately identify this as a directive. We know that because we recognize that this isn’t a built-in piece of HTML. Even if we haven’t memorized every possible HTML element, one rule of thumb is that default HTML elements never have dashes in their name.
+
+In Angular 2 this is a component. Somewhere will be a matching component definition. Let’s look at that definition:
+ 
+```javascript
+@Component({
+  selector: 'hero-info'
+  template: '<h1>Hero Info</h1>'
+})
+export class HeroInfo {
+
+}
+```
+
+Here is our component definition. There are 2 key pieces to a component definition. The class itself, and the component decorator (the “@Component” part). The decorator has a couple important pieces: the selector, which tells Angular what the matching HTML element looks like, and the template, which tells Angular what HTML we want to stick into the DOM when this component is encountered. After Angular is done with the page, it will go from looking like this:
+ 
+```javascript
+<hero-info></hero-info>
+```
+
+to this:
+ 
+```javascript
+<hero-info>
+  <h1>Hero Info</h1>
+</hero-info>
+```
+
+Nested Components
+
+In Angular 2, components can be nested inside of each other. This lets us encapsulate functionality into small packages, and delegate responsibilities to other pieces of our application.
+
+So if we change the template of our HeroInfo class to this:
+ 
+```javascript 
+template: `
+  <hero-info-header></hero-info-header>
+  <hero-info-body></hero-info-body>
+`
+```
+
+Then we have made our HeroInfo class delegate responsibility for displaying information to two sub-components: HeroInfoHeader, and HeroInfoBody. That way, as the functionality of our HeroInfo component grows, we can create smaller components that encapsulate some of that functionality for us, which makes our applications easy to maintain and build.
+
+As a side note, you should realize that the name of the class of a component doesn’t have to match the name of the HTML element. So a definition like this is completely valid:
+ 
+```javascript
+@Component({
+  selector: 'hero-info',
+})
+export class HeroCo0mponentThatShowsIOnfoAboutHeroes {
+
+}
+```
+
+Although I wouldn’t necessarily recommend something like this. It’s nice when the class name and the selector are fairly obviously related.
+
+***Handling Interaction***
+
+Now of course just displaying HTML is rarely all we need out of an application. Usually we need to take action based on user interactions. Handling user events is relatively straightforward. In our html, we simply need to listen to the event we care about. So given the following template:
+ 
+```javascript
+template: `
+  <h1>Hero Info</h1>
+  <button>See Details</button>
+`
+```
+
+We obviously want to take some kind of action and display more information to the user whenever they click the button. This is handled with the following component:
+ 
+```javascript
+@Component({
+  selector: 'hero-info',
+  template:`
+    <h1>Hero Info</h1>
+    <button (click)="showDetails()">See Details</button>
+  `
+})
+export class HeroInfo {
+  showDetails() {
+    // implementation here
+  }
+}
+```
+
+There are two important changes shown here: First, the HTML for our button now has a new attribute. The (click) attribute. This looks quite a bit different to any HTML we have seen before. It simply tells the Angular framework that we want to listen to the click event on the button. We could just as easily be listening to another event, but in our case, the click event is the one we care about. The value of this attribute is “showDetails()”. This tells the framework that our matching component class has a showDetails method that we want to invoke whenever the event is raised. And of course we have our showDetails method inside our component.
+
+This is how we handle interactions in Angular 2. It’s quite straightforward and simple to understand.
+
+
+Passing Data to Child Components
+The final item I want to cover is passing data to child components. This is a frequent task we need to accomplish. Often times a parent component will have data that child components need. For example, if our HeroInfo component has a name property like so:
+ 
+
+
+
+And we want the child component HeroInfoHeader to display the name of the hero in a h1 tag, then we need a way to pass that data to the HeroInfoHeader component. We do this by adding an attribute to the <hero-info-header> node in our HeroInfo template, like this:
+ 
+
+
+
+Here we have added the hero-name attribute to the hero-info-header node, surrounded by square brackets. There’s a couple of important things to notice here. First and most obviously, is the square brackets. When we were listening to events, we used parentheses. When we are binding data into our child component we use square brackets. They serve similar but distinct purposes. Events are the way our child component talks to the parent component. Letting the parent component know that something important happened. Bindings are how parent components talk to child components, sending data in. Understanding these two concepts is very important when working with Angular 2.
+
+Also notice that we don’t specify the actual value of the name, but instead, we pass the identifier name, which in this case is the string “name”. So if the identifier for the hero’s name wasn’t “name” but instead was “heroName” like this:
+ 
+
+
+
+Then our corresponding template would be this:
+ 
+
+
+
+Now that we’ve passed the data into the child component, we have to tell the child component to receive this information, and store it somewhere for use. For that we use an Input decorator. Our HeroInfoHeader component would look like this:
+ 
+
+
+
+Here we are using the Input decorator. It looks much like the component decorator, in that it starts with the @ sign, then the name of the decorator, and then parentheses. In the case of the component decorator, we pass in a configuration object. With the Input decorator, we don’t pass it any parameters, so the parentheses are empty. But in both cases, the parentheses are extremely important. This is a very common mistake to make, not adding in the parentheses, and instead just doing something like this:
+ 
+
+
+
+This is a great way to give yourself a headache trying to figure out why your app isn’t working correctly.
+
+Let’s put all this together and look at the completed solution:
+ 
+
+
+
+And with this, we have learned the pattern for passing data from a parent component into a child component.
+
+
+Summary
+Components in Angular 2 are a core concept. Any Angular 2 application will ultimately be composed from a tree of components. Understanding how to create components and communicate between parent and child components is a very important feature of learning Angular 2.
 
