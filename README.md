@@ -37,11 +37,11 @@ Angular 2 is just about to release, and many developers are asking themselves, �
 
 First, it’s a good idea to understand where front end web development is at currently. A few short years ago, there were very few choices, but today, we have quite a few very good frameworks to choose from. This is a better situation than when there were no choices, but it can also lead to analysis paralysis, where we can’t make a decision because there’s just too many good choices. In addition, we have seen a recent rash of tool fatigue - developers complaining that there is just too many moving pieces in even a simple app, and for new developers especially, this can be a particularly challenging environment in which to try to get work done.
  
-Angular 1
+***Angular 1***
 
 Although Angular 1 is a great framework, it’s beginning to show its age. Even though it is still gaining popularity, there are some fundamental problems with it. First and foremost is its performance. Angular 1 is fine for many sites, but it doesn’t take long before a developer can encounter a situation where Angular 1 experiences some speed problems. Second, Angular 1 was not built with modern tools and standards in mind. If you want to use it with a module system, you will be quickly disappointed with how much friction you experience. Finally it suffers from a bit of ambiguity in some of the different pieces. With the most recent version of Angular, you can accomplish the same thing with either a controller, a directive, or a component. So which one is the right one to use in a given situation can be problematic.
 
-Other Frameworks
+***Other Frameworks***
 
 Although there are some great frameworks available now, they each have a few problems that a developer can experience. First off, many of these other frameworks have a much smaller adoption than Angular, so for both your career, and when trying to hire experienced talent, that can be a challenge. With Angular 2, it will become a natural choice for Angular 1 shops to write new projects in Angular 2, which will likely mean that the adoption for it will be very widespread.
 
@@ -49,7 +49,7 @@ Second, many other frameworks are partial solutions, unlike Angular, meaning tha
 
 Finally, some of the other frameworks were developed with an eye towards solving a specific kind of problem, and therefore they have a hard time existing in a typical enterprise environment with the usual trappings that come along, such as unit testing, localization, and accessibility.
 
-Angular 2
+***Angular 2***
 
 Now that we’ve identified some issues with both Angular 1 and other frameworks, let’s look at how Angular 2 addresses these issues.
 
@@ -65,7 +65,7 @@ Angular 2 is also a complete solution. It includes rendering, compilation, bindi
 
 Finally, Angular 2 was built from the ground up to solve the same problems Angular 1 solves: everything from simple demo apps to large enterprise-scale applications. It is highly testable, supports accessibility and localization. 
 
-Conclusion
+***Conclusion***
 
 So, should you learn Angular 2? The answer is pretty obvious. It will definitely be a major player in the JavaScript framework scene for the foreseeable future. There’s no better time than today to learn Angular 2.
 
@@ -74,11 +74,13 @@ So, should you learn Angular 2? The answer is pretty obvious. It will definitely
 One of the very common surprises that people have when learning about Angular 2 is its close ties with TypeScript. This relationship seemingly came out of nowhere, and many people have been asking questions about this. Additionally, developers may feel a little trepidation when faced with learning yet again something new. So let’s get a quick look at not only the rationale, but the absolute basics and how much of an additional learning curve TypeScript might add when learning Angular 2.
  
 ***History***
+
 It’s easier to understand the present by understanding the past. When the Angular team started on Angular 2, they realized that with such a large undertaking, that having types would eliminate a large segment of possible bugs as they wrote the code for the framework. So internally they were interested in adding types to JavaScript. Furthermore, the dependency injection system of Angular 2 works better with types. So there was a good reason to use types not only within the source code of Angular 2, but also for developers using Angular 2. Additionally, one of the design goals for Angular 2 has always been for it to be forward looking. Using the latest version of JavaScript, ECMAScript 6, was a big part of that goal. So for now, some kind of transpiler is necessary.
 
 When analyzing the existing tools, nothing quite matched the requirements they had. That gave birth to an internal language called AtScript. The team used this language for quite a while, but eventually ended up in a meeting with the TypeScript team where they looked at the few things they needed that were missing from TypeScript. This resulted in an agreement to have those items added to TypeScript. AtScript was dropped and the project was converted to TypeScript.
 
 ***What’s the Difference?***
+
 Now TypeScript is by no means required to work with Angular 2. It just simplifies the code. Let’s take a quick look at what the same code looks like using TypeScript vs just regular old JavaScript.
 
 Here’s a simple component written in JavaScript:
@@ -105,8 +107,22 @@ Here’s a simple component written in JavaScript:
 
 And here’s the same thing in TypeScript:
  
+```javascript
+import { Component } from '@angular/core';
+import { Hero } from './hero';
 
+@Component({
+  selector: 'hero-form',
+  templateUrl: 'app/hero-form.component.html'
+})
 
+export class HeroFormComponent {
+  powers = ['Really Smart', 'Super Flexible', 'Super Hot', 'Weather Changer'];
+  model = new Hero(18, 'Dr IQ', this.powers[0], 'Chuck Overstreet');
+  submitted = false;
+  setSubmitted(newValue: boolean) { this.submitted = newValue; }
+}
+```
 
 Right off the bat, you can see that the TypeScript code is more succinct. Only 13 lines instead of 20. Additionally, once you understand the various ES6 and TypeScript constructs used, TypeScript is just more expressive. It takes less ceremony to express the same thing.
  
