@@ -416,26 +416,33 @@ And with this, we have learned the pattern for passing data from a parent compon
 
 Components in Angular 2 are a core concept. Any Angular 2 application will ultimately be composed from a tree of components. Understanding how to create components and communicate between parent and child components is a very important feature of learning Angular 2.
 
-///// TODO:Clean up below formatting
-
 ##04 Decorators in Angular 2
 
 Decorators are a new language feature of JavaScript. They haven’t seen heavy use outside of Angular 2, but within Angular 2 they are a core feature and used extremely heavily. Luckily they are easy to learn and often times just looking at examples of how they are used is enough to get going with them.
 
 In this post, we’re going to do a bit of a deep dive into decorators, both in general, and how they are used with Angular 2.
- 
-Overview & History
+  
+***Overview & History***
 
 Decorators are not a feature of Angular 2. They are a part of the JavaScript language. They are not part of ES6, but instead are currently in proposal. Which means they could be part of ES7 or maybe even a later version. Thankfully though, they are easily transpilable down to ES5 (the current version that today’s browsers use) so as long as you are using a transpiler like TypeScript or Babel, there’s no problem using them in your code.
 
 Decorators themselves were simultaneously proposed by the Angular team, and Yehuda Katz, one of the creators of EmberJS. The Angular team and Yehuda Katz both had slightly differing ideas for decorators, but they worked together to combine their ideas and create a proposal to be added to a future version of JavaScript.
  
-Implementation
+***Implementation***
 
 Let’s take a look at how decorators are actually implemented, to give us an idea of how powerful they are.
 
 Decorators are just metadata for the javascript item that follows the decorator. The simplest case is something like the @Component decorator which decorates a class.
 
+```javascript
+@Component({
+  selector: 'my-app'
+  template: `<h1>{{title}}</h1>`
+})
+export class AppComponent {
+  title = 'Tour of Heroes';
+}
+```
 
 Here we can see an example of this decorator. The @Component decorator here applies to the class, because the class is the very next thing that occurs in code. We can actually decorate more than just a class. We’ll talk about that in a bit here.
 
@@ -449,13 +456,13 @@ That’s it. That’s how a decorator works. It’s just a function.
 
 I mentioned before that you can decorate more than classes. As of right now, there are proposals for decorators to be supported for classes, class properties, method parameters, and function expressions. If you care to read the actual proposals, you can find them here:
 
-http://tc39.github.io/proposal-decorators/
+- http://tc39.github.io/proposal-decorators/
 
-https://docs.google.com/document/d/1Qpkqf_8NzAwfD8LdnqPjXAQ2wwh8BBUGynhn-ZlCWT0/edit#heading=h.t9k9f05noi8w
+- https://docs.google.com/document/d/1Qpkqf_8NzAwfD8LdnqPjXAQ2wwh8BBUGynhn-ZlCWT0/edit#heading=h.t9k9f05noi8w
 
-https://docs.google.com/document/d/1ikxIP5-RVYq6d_f8lAvf3pKC00W78ueyp-xIZ6q67uU/edit#heading=h.968mz5bebisa
+- https://docs.google.com/document/d/1ikxIP5-RVYq6d_f8lAvf3pKC00W78ueyp-xIZ6q67uU/edit#heading=h.968mz5bebisa
 
-Angular 2 Decorators
+***Angular 2 Decorators***
 
 All of this background and technical mumbo jumbo doesn’t matter if it doesn’t help us understand decorators in Angular 2. So let’s look at some of the more common decorators used in Angular 2.
 
@@ -465,18 +472,30 @@ Next is the @NgModule decorator. This is another class decorator that tells Angu
 
 The next most common decorators you’ll encounter are the @Input and @Output decorators. These are property decorators, used to mark a given property of a component as either an input or output property. An input property enables you to pass data from a parent component to a child component. See my previous post on the role of Components for more detail. An output property allows a child component to raise events that are captured by a parent component to allow the child component to communicate with the parent, telling it when something important happens, and allowing it to pass data back in that message as well.
 
+```javascript
+export class HeroDisplay {
+  @Input() name;
+  @Output() selected;
+}
+```
 
 Here’s an example of each. With this code, the name will be set by a parent component, and the parent component can listen and respond when a given hero is selected.
 
 The last decorator we’ll look at is the @Injectable decorator, a class decorator, which is used with services, allowing you to use the Dependency Injector to pass dependencies into that service. Like the input and output decorators, it takes no parameters. Let’s look at a a simple example:
 
-
+```javascript
+@Injectable()
+export class HeroService {}
+```
 
 Here we are marking the HeroService, so that we can inject other services into it using the Angular 2 dependency injector.
 
 There are quite a few other Angular 2 decorators, but these are the most common ones you’ll encounter.
  
-
-Summary
+***Summary***
  
 Decorators are a very interesting feature of JavaScript, and Angular 2 has made effective use of them to make writing your applications easier and more maintainable. The better you understand these decorators, and how they work, the easier it will be to learn Angular 2.
+
+///// TODO:Clean up below formatting
+
+
